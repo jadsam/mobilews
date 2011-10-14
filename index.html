@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>JQuery Mobile AJAX</title>
+    <link rel="stylesheet" href="jquery.mobile-1.0a2/jquery.mobile-1.0a2.css" type="text/css" />
+    <script src="jquery-1.4.4.min.js" language="JavaScript" type="text/javascript"></script>
+    <script src="jquery.mobile-1.0a2/jquery.mobile-1.0a2.min.js" language="JavaScript" type="text/javascript"></script>
+</head>
+ 
+<body>
+ 
+    <script language="JavaScript" type="text/javascript">
+        $(function() {
+ 
+            $("#callAjax").click(function() {
+                var theName = $.trim($("#theName").val());
+ 
+                if(theName.length > 0)
+                {
+                    $.ajax({
+                      type: "POST",
+                      contentType: "application/x-www-form-urlencoded", // ; charset=ISO-8859-15
+                      url: "http://www.evodevo.com.ar/campus/mobile/services/soap_response.php",
+                      data: ({idusuario: theName}),
+                      cache: false,
+                      dataType: "text",
+                      success: onSuccess,
+                      timeout:10000,
+                    });
+                }
+            });
+ 
+            $("#resultLog").ajaxError(function(event, request, settings, exception) {
+              $("#resultLog").html("Error Calling: " + settings.url + "<br />HTPP Code: " + request.status);
+            });
+ 
+            function onSuccess(data)
+            {
+                $("#resultLog").html(data);
+            }
+ 
+        });
+    </script>
+ 
+    <div data-role="page" id="indexPage">
+        <div data-role="header">
+            <h1>Soap Client JQuery Mobile</h1>
+        </div>
+        <div data-role="content">
+            <div data-role="fieldcontain">
+                <label for="theName">ID Usuario(25,587,588,589):</label>
+                <input type="text" id="theName" name="theName" value="" />
+            </div>
+            <input id="callAjax" type="button" value="Consultar" />
+            <div id="resultLog"></div>
+        </div>
+ 
+        <div data-role="footer">
+            <h1>AJAX Demo</h1>
+        </div>
+    </div>
+ 
+</body>
+</html>
